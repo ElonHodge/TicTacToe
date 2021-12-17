@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TicTacToe</title>
+    <link rel="stylesheet" href="style/game.css">
+    <link rel="stylesheet" href="style/bootstrap.min.css">
+
+</head>
+<body>
+<div>
+    <h1>TicTacToe</h1>
+    <h3> First move will be X</h3>
+
+</div>
+
+<div class=" gameBoard position-fixed d-flex flex-row">
+    <div id="test"></div>
+
+
+    <div class="flex-fill border-dark ">
+
+        <div class="board">
+            <button id="btn0" onclick="insertShape(0)" class="boardBtn">
+                <img id="img0" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
+            </button>
+        </div>
+        <div  class="board boardLines">
+            <button id="btn3" onclick="insertShape(3)" class="boardBtn">
+                <img id="img3" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
+            </button>
+        </div>
+        <div class="board boardLines">
+            <button id="btn6" onclick="insertShape(6)" class="boardBtn">
+                <img id="img6" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-fill border-start border-end border-dark">
+        <div class="board">
+            <button id="btn1" onclick="insertShape(1)" class="boardBtn">
+                <img id="img1" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
+            </button>
+        </div>
+        <div id="testDiv" class="board boardLines">
+            <button id="btn4" onclick="insertShape(4)" class="boardBtn">
+                <img id="img4" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
+            </button>
+        </div>
+        <div class="board boardLines">
+            <button id="btn7" onclick="insertShape(7)" class="boardBtn">
+                <img id="img7" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-fill">
+        <div class="board">
+            <button id="btn2" onclick="insertShape(2)" class="boardBtn">
+                <img id="img2" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
+            </button>
+        </div>
+        <div class="board boardLines">
+            <button id="btn5" onclick="insertShape(5)" class="boardBtn">
+                <img id="img5" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
+            </button>
+        </div>
+        <div class="board boardLines">
+            <button id="btn8" onclick="insertShape(8)" class="boardBtn">
+                <img id="img8" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
+            </button>
+        </div>
+    </div>
+
+
+</div>
+<button  class = "restart position-fixed" onclick="startGame()">Restart Game</button>
+</div>
+
+<button onclick="diagonalLineAnimation1()"> test</button>
+
+<script src="script/game.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="script/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+</body>
+</html>
