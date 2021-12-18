@@ -16,15 +16,19 @@
     <h3> First move will be X</h3>
 
 </div>
-
+<div class="d-flex flex-row selectButtons  justify-content-evenly   ">
+    <button class="selectButtonsStyle" onclick="computerSelections('0')">X</button>
+    <button class="selectButtonsStyle" onclick="computerSelections('x')">O</button>
+</div>
 <div class=" gameBoard position-fixed d-flex flex-row">
-    <div id="test"></div>
+
+    <div id="boardAnimation"></div>
 
 
     <div class="flex-fill border-dark ">
 
         <div class="board">
-            <button id="btn0" onclick="insertShape(0)" class="boardBtn">
+            <button id="btn0"  onclick="insertShape(0)" class="boardBtn ">
                 <img id="img0" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
         </div>
@@ -46,7 +50,7 @@
                 <img id="img1" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
         </div>
-        <div id="testDiv" class="board boardLines">
+        <div id="" class="board boardLines">
             <button id="btn4" onclick="insertShape(4)" class="boardBtn">
                 <img id="img4" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
@@ -81,7 +85,7 @@
 <button  class = "restart position-fixed" onclick="startGame()">Restart Game</button>
 </div>
 
-<button onclick="diagonalLineAnimation1()"> test</button>
+<button onclick="diagonalLineAnimation()"> test</button>
 
 <script src="script/game.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>

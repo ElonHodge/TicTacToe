@@ -48,3 +48,16 @@ h1,h3{
 .buttons{
     width: 100px;
 }
+.selectButtons{
+    width:320px;
+    top : 20%;
+    left: 50%;
+    transform:translate(-50%,-50%);
+    position: fixed;
+}
+.selectButtonsStyle{
+    width: 50px;
+    border-radius: 5px;
+    background-color: white;
+    font-family: Noteworthy, sans-serif;
+}
