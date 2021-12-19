@@ -2,7 +2,7 @@ const shapeX = "images/shapeX.svg";
 const shapeO = "images/shapeO.svg";
 let counter = 0;
 let boardPosition = 0;
-let playerMoveCombinationsArray = [];
+let playerMovesCombinationsArray = [];
 let inputShapeArray = ['', '', '', '', '', '', '', '', '']
 let playerMovesArray = [];
 let textBanner = document.getElementsByTagName("h3")[0];
@@ -40,8 +40,7 @@ function insertShape(id) {
     // Use for number of turns
     counter++;
     // odd number X even number O
-    playerOne = (counter % 2 === 1)
-
+    playerOne = (counter % 2 === 1);
     switch (id) {
         case 0:
             if (playerOne ? getId('img0').src = shapeX : getId('img0').src = shapeO)
@@ -110,10 +109,6 @@ function insertShape(id) {
     inputShapeVariables();
     validateGameBoard();
     if (computerMode) computerSelections(playerOne ? '0' : 'x');
-
-
-
-    console.log("Player counter: " + counter);
 }
 
 //*************** Values for row, col, diagonal   ******************************
@@ -127,7 +122,8 @@ function inputShapeVariables() {
     col2 = inputShapeArray[2] + inputShapeArray[5] + inputShapeArray[8];
     diagonal0 = inputShapeArray[0] + inputShapeArray[4] + inputShapeArray[8];
     diagonal1 = inputShapeArray[2] + inputShapeArray[4] + inputShapeArray[6];
-    playerMoveCombinationsArray = [playerMovesArray[0]+playerMovesArray[1]];
+    playerMovesCombinationsArray = [""+playerMovesArray[0]+playerMovesArray[1],
+        ""+playerMovesArray[0]+playerMovesArray[1]+playerMovesArray[2]];
 }
 
 //*************** Animations   ******************************
@@ -339,53 +335,118 @@ function computerSelections(char) {
                 if (playerMovesArray[0] === 8) assignComputerValue(2,'x')
                 break;
             case 4:
-                console.log("playerMoveCombinationsArray: "+playerMoveCombinationsArray[0])
-
-                if (playerMoveCombinationsArray[0] === '02' )assignComputerValue(1,'x')
-                if (playerMoveCombinationsArray[0] === '15' )assignComputerValue(0,'x')
-                if (playerMoveCombinationsArray[0] === '27' )assignComputerValue(5,'x')
-                if (playerMoveCombinationsArray[0] === '36' )assignComputerValue(0,'x')
-                if (playerMoveCombinationsArray[0] === '56' )assignComputerValue(0,'x')
-                if (playerMoveCombinationsArray[0] === '68' )assignComputerValue(7,'x')
-                if (playerMoveCombinationsArray[0] === '86' )assignComputerValue(8,'x')
-
-                if (playerMovesArray[0] === 0) {
-                    if (playerMoveCombinationsArray[0] ===  '01' || '02' || '03' || '05' || '07' ||'08')
-                        assignComputerValue(2,'x')
+                switch (playerMovesArray[0]) {
+                    case 0:
+                        if (playerMovesCombinationsArray[0] === '02') {
+                            assignComputerValue(1, 'x')
+                        } else if (playerMovesCombinationsArray[0] === '01' || '03' || '05' || '07' || '08') {
+                            assignComputerValue(2, 'x')
+                        }
+                        break;
+                    case 1:
+                        if (playerMovesCombinationsArray[0] === '15') {
+                            assignComputerValue(0, 'x')
+                        } else if (playerMovesArray[0] === 1) {
+                            if (playerMovesCombinationsArray[0] === '10' || '12' || '16' || '17' || '18')
+                                assignComputerValue(5, 'x')
+                        }
+                        break;
+                    case 2:
+                        if (playerMovesCombinationsArray[0] === '27') {
+                            assignComputerValue(5, 'x')
+                        } else if (playerMovesArray[0] === 2) {
+                            if (playerMovesCombinationsArray[0] === '23' || '25' || '26' || '27')
+                                assignComputerValue(7, 'x')
+                        }
+                        break;
+                    case 3:
+                        if (playerMovesCombinationsArray[0] === '36') {
+                            assignComputerValue(0, 'x')
+                        } else if (playerMovesArray[0] === 3) {
+                            if (playerMovesCombinationsArray[0] === '30' || '31' || '35' || '37' || '38')
+                                assignComputerValue(6, 'x')
+                        }
+                        break;
+                    case 5:
+                        if (playerMovesCombinationsArray[0] === '56') {
+                            assignComputerValue(8, 'x')
+                        } else if (playerMovesArray[0] === 5) {
+                            if (playerMovesCombinationsArray[0] === '50' || '51' || '53' || '57' || '58') {
+                                assignComputerValue(6, 'x')
+                            }
+                        }
+                        break;
+                    case 6:
+                        if (playerMovesCombinationsArray[0] === '68') {
+                            assignComputerValue(7, 'x')
+                        } else if (playerMovesArray[0] === 6) {
+                            if (playerMovesCombinationsArray[0] === '61' || '63' || '65' || '67')
+                                assignComputerValue(8, 'x')
+                        }
+                        break;
+                    case 7:
+                        if (playerMovesCombinationsArray[0] === '76') {
+                            assignComputerValue(8, 'x')
+                        } else if (playerMovesArray[0] === 7) {
+                            if (playerMovesCombinationsArray[0] === '70' || '71' || '73' || '75' || '78')
+                                assignComputerValue(6, 'x')
+                        }
+                        break;
+                    case 8:
+                        if (playerMovesCombinationsArray[0] === '86') {
+                            assignComputerValue(7, 'x')
+                        } else if (playerMovesArray[0] === 8) {
+                            if (playerMovesCombinationsArray[0] === '80' || '81' || '83' || '85' || '87')
+                                assignComputerValue(6, 'x')
+                        }
+                        break;
                 }
-
-                if (playerMovesArray[0] === 1 ){
-                   if( playerMoveCombinationsArray[0] === '10' || '12' || '16' || '17' || '18')
-                        assignComputerValue(5,'x')
-                }
-                if (playerMovesArray[0] === 2) {
-                    if (playerMoveCombinationsArray[0] ===  '01' || '02' || '03' || '05' || '07' ||'08')
-                        assignComputerValue(2,'x')
-                }
-                        //todo moves for  3-8
-                // if (playerMovesArray[0] === 3 ){
-                //     if( playerMoveCombinationsArray[0] === '10' || '12' || '16' || '17' || '18')
-                //         assignComputerValue(5,'x')
-                // }
-                // if (playerMovesArray[0] === 5) {
-                //     if (playerMoveCombinationsArray[0] ===  '01' || '02' || '03' || '05' || '07' ||'08')
-                //         assignComputerValue(2,'x')
-                // }
-                //
-                // if (playerMovesArray[0] === 6 ){
-                //     if( playerMoveCombinationsArray[0] === '10' || '12' || '16' || '17' || '18')
-                //         assignComputerValue(5,'x')
-                // }
-                // if (playerMovesArray[0] === 7 ){
-                //     if( playerMoveCombinationsArray[0] === '10' || '12' || '16' || '17' || '18')
-                //         assignComputerValue(5,'x')
-                // }
-                // if (playerMovesArray[0] === 8 ){
-                //     if( playerMoveCombinationsArray[0] === '10' || '12' || '16' || '17' || '18')
-                //         assignComputerValue(5,'x')
-                // }
                 break;
             case 6:
+                // todo
+                switch (playerMovesArray[1]) {
+                    case 0:
+                        if (playerMovesCombinationsArray[0] === '02') {
+                            assignComputerValue(1, 'x')
+                        } else if (playerMovesCombinationsArray[0] === '01' || '03' || '05' || '07' || '08') {
+                            assignComputerValue(2, 'x')
+                        }
+                        break;
+                    case 1:
+                        if (playerMovesCombinationsArray[0] === '15') {
+                            assignComputerValue(0, 'x')
+                        } else if (playerMovesArray[0] === 1) {
+                            if (playerMovesCombinationsArray[0] === '10' || '12' || '16' || '17' || '18')
+                                assignComputerValue(5, 'x')
+                        }
+                        break;
+                    case 5:
+                        if (playerMovesCombinationsArray[0] === '27') {
+                            assignComputerValue(5, 'x')
+                        } else if (playerMovesArray[0] === 2) {
+                            if (playerMovesCombinationsArray[0] === '23' || '25' || '26' || '27')
+                                assignComputerValue(7, 'x')
+                        }
+                        break;
+                    case 7:
+                        if (playerMovesCombinationsArray[0] === '36') {
+                            assignComputerValue(0, 'x')
+                        } else if (playerMovesArray[0] === 3) {
+                            if (playerMovesCombinationsArray[0] === '30' || '31' || '35' || '37' || '38')
+                                assignComputerValue(6, 'x')
+                        }
+                        break;
+                    case 8:
+                        if (playerMovesCombinationsArray[0] === '56') {
+                            assignComputerValue(8, 'x')
+                        } else if (playerMovesArray[0] === 5) {
+                            if (playerMovesCombinationsArray[0] === '50' || '51' || '53' || '57' || '58') {
+                                assignComputerValue(6, 'x')
+                            }
+                        }
+                        break;
+
+                }
                 break;
             case 8:
                 break;
