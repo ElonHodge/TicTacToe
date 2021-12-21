@@ -1,9 +1,8 @@
 const shapeX = "images/shapeX.svg";
 const shapeO = "images/shapeO.svg";
-let counter = 0;
+let playerTurn = 0;
 let boardPosition = 0;
-let playerMovesCombinationsArray = [];
-let inputShapeArray = ['', '', '', '', '', '', '', '', '']
+let inputShapeArray = [];
 let playerMovesArray = [];
 let textBanner = document.getElementsByTagName("h3")[0];
 let playerOne = "";
@@ -14,9 +13,10 @@ let col0 = "";
 let col1 = "";
 let col2 = "";
 let diagonal0 = "";
-let diagonal1 = ""
+let diagonal3 = ""
+let playerMoves1and2 = "";
+let playerMoves123 = "";
 let computerMode = false;
-
 
 function getId(id) {
     return document.getElementById(id);
@@ -26,21 +26,23 @@ function startGame() {
     enableAllButtons()
     restartGameAnimation()
     textBanner.innerHTML = "First move will be X"
-    counter = 0;
+    playerTurn = 0;
     boardPosition = 0;
+    computerMode = false;
     for (let i = 0; i <= 8; i++) {
         document.getElementById("img" + i).src = "images/shapeBlank.svg"
         inputShapeArray[i] = '';
-
+        playerMovesArray.pop();
     }
+
 }
 
 //*************** Insert X or O and player logic  ******************************
 function insertShape(id) {
     // Use for number of turns
-    counter++;
+    playerTurn++;
     // odd number X even number O
-    playerOne = (counter % 2 === 1);
+    playerOne = (playerTurn % 2 === 1);
     switch (id) {
         case 0:
             if (playerOne ? getId('img0').src = shapeX : getId('img0').src = shapeO)
@@ -121,9 +123,11 @@ function inputShapeVariables() {
     col1 = inputShapeArray[1] + inputShapeArray[4] + inputShapeArray[7];
     col2 = inputShapeArray[2] + inputShapeArray[5] + inputShapeArray[8];
     diagonal0 = inputShapeArray[0] + inputShapeArray[4] + inputShapeArray[8];
-    diagonal1 = inputShapeArray[2] + inputShapeArray[4] + inputShapeArray[6];
-    playerMovesCombinationsArray = [""+playerMovesArray[0]+playerMovesArray[1],
-        ""+playerMovesArray[0]+playerMovesArray[1]+playerMovesArray[2]];
+    diagonal3 = inputShapeArray[2] + inputShapeArray[4] + inputShapeArray[6];
+    playerMoves1and2 = "" + playerMovesArray[0] + playerMovesArray[1];
+   playerMoves123 = "" + playerMovesArray[0] + playerMovesArray[1] + playerMovesArray[2];
+
+
 }
 
 //*************** Animations   ******************************
@@ -211,31 +215,16 @@ function verticalLineAnimation() {
 
 }
 
-function diagonalLineAnimation() {
-    let rotation = "";
-    let marginNum = 0;
-    switch (boardPosition) {
-        case 0:
-        case 4:
-        case 8:
-            rotation = "rotate(45deg)";
-            marginNum = 0;
-            break;
-        case 2:
-        case 4:
-        case 6:
-            rotation = "rotate(-45deg)";
-            marginNum = 100;
-            break;
-    }
+function diagonalLineAnimationPos0() {
+
     document.getElementById("boardAnimation").animate([
         {
             border: "1px black solid",
             marginTop: "0px",
-            marginLeft: marginNum + "%",
+            marginLeft: "0%",
             width: "0px",
             height: "0px",
-            transform: rotation,
+            transform: 'rotate(45deg)',
             position: "fixed",
         },
         {
@@ -243,7 +232,33 @@ function diagonalLineAnimation() {
             marginTop: "150px",
             width: "100%",
             height: "0px",
-            transform: rotation,
+            transform: 'rotate(45deg)',
+            position: "fixed",
+
+        },
+    ], {duration: 1000, fill: "forwards"})
+
+
+}
+
+function diagonalLineAnimationPos3() {
+
+    document.getElementById("boardAnimation").animate([
+        {
+            border: "1px black solid",
+            marginTop: "0px",
+            marginLeft: "100%",
+            width: "0px",
+            height: "0px",
+            transform: 'rotate(-45deg)',
+            position: "fixed",
+        },
+        {
+            border: "1px black solid",
+            marginTop: "150px",
+            width: "100%",
+            height: "0px",
+            transform: 'rotate(-45deg)',
             position: "fixed",
 
         },
@@ -292,25 +307,29 @@ function validateAllRowColDiagonal() {
 
     if (validateRowColDiagonal(row0) || validateRowColDiagonal(row1) || validateRowColDiagonal(row2)) return 0;
     if (validateRowColDiagonal(col0) || validateRowColDiagonal(col1) || validateRowColDiagonal(col2)) return 1;
-    if (validateRowColDiagonal(diagonal0) || validateRowColDiagonal(diagonal1)) return 2;
+    if (validateRowColDiagonal(diagonal0)) return 2;
+    if (validateRowColDiagonal(diagonal3)) return 3;
 
     if (!validateRowColDiagonal(row0) && !validateRowColDiagonal(row1) && !validateRowColDiagonal(row2) &&
         !validateRowColDiagonal(col0) && !validateRowColDiagonal(col1) && !validateRowColDiagonal(col2) &&
-        !validateRowColDiagonal(diagonal0) && !validateRowColDiagonal(diagonal1)
-    ) return 3;
+        !validateRowColDiagonal(diagonal0) && !validateRowColDiagonal(diagonal3)
+    ) return 4;
 }
 
 function validateGameBoard() {
-    if (validateAllRowColDiagonal() < 3) {
+    if (validateAllRowColDiagonal() < 4) {
         if (validateAllRowColDiagonal() === 0) horizontalLineAnimation();
         if (validateAllRowColDiagonal() === 1) verticalLineAnimation();
-        if (validateAllRowColDiagonal() === 2) diagonalLineAnimation();
+        if (validateAllRowColDiagonal() === 2) diagonalLineAnimationPos0();
+        if (validateAllRowColDiagonal() === 3) diagonalLineAnimationPos3();
+
+
         textBanner.innerHTML = `${(playerOne ? 'x' : '0').toUpperCase()} WON !`;
         if (computerMode) textBanner.innerHTML = `${(playerOne ? '0' : 'x').toUpperCase()} WON !`;
 
         disableAllButtons();
 
-    } else if (counter === 9) {
+    } else if (playerTurn === 9) {
         textBanner.innerHTML = 'Draw Game';
     }
 }
@@ -318,137 +337,119 @@ function validateGameBoard() {
 //*************** Computer logic   ******************************
 function computerSelections(char) {
     computerMode = true;
-
+// todo test 1-8
     if (char === 'x') {
-        switch (counter) {
+        switch (playerTurn) {
             case 0:
                 assignComputerValue(4, 'x')
                 break;
+            // Depending on player's first move the computer will respond accordingly
             case 2:
-                if (playerMovesArray[0] === 0) assignComputerValue(6,'x')
-                if (playerMovesArray[0] === 1) assignComputerValue(3,'x')
-                if (playerMovesArray[0] === 2) assignComputerValue(1,'x')
-                if (playerMovesArray[0] === 3) assignComputerValue(2,'x')
-                if (playerMovesArray[0] === 5) assignComputerValue(2,'x')
-                if (playerMovesArray[0] === 6) assignComputerValue(0,'x')
-                if (playerMovesArray[0] === 7) assignComputerValue(2,'x')
-                if (playerMovesArray[0] === 8) assignComputerValue(2,'x')
+                if (playerMovesArray[0] === 0) assignComputerValue(6, 'x')
+                if (playerMovesArray[0] === 1) assignComputerValue(3, 'x')
+                if (playerMovesArray[0] === 2) assignComputerValue(1, 'x')
+                if (playerMovesArray[0] === 3) assignComputerValue(2, 'x')
+                if (playerMovesArray[0] === 5) assignComputerValue(2, 'x')
+                if (playerMovesArray[0] === 6) assignComputerValue(0, 'x')
+                if (playerMovesArray[0] === 7) assignComputerValue(2, 'x')
+                if (playerMovesArray[0] === 8) assignComputerValue(2, 'x')
                 break;
             case 4:
+                // Depending on player's first and second move the computer will respond accordingly
+
                 switch (playerMovesArray[0]) {
                     case 0:
-                        if (playerMovesCombinationsArray[0] === '02') {
-                            assignComputerValue(1, 'x')
-                        } else if (playerMovesCombinationsArray[0] === '01' || '03' || '05' || '07' || '08') {
-                            assignComputerValue(2, 'x')
-                        }
+                        (playerMoves1and2 === '02' ?
+                            assignComputerValue(1, 'x') : assignComputerValue(2, 'x'))
                         break;
                     case 1:
-                        if (playerMovesCombinationsArray[0] === '15') {
-                            assignComputerValue(0, 'x')
-                        } else if (playerMovesArray[0] === 1) {
-                            if (playerMovesCombinationsArray[0] === '10' || '12' || '16' || '17' || '18')
-                                assignComputerValue(5, 'x')
-                        }
+                        (playerMoves1and2 === '15' ?
+                            assignComputerValue(0, 'x') : assignComputerValue(5, 'x'))
                         break;
                     case 2:
-                        if (playerMovesCombinationsArray[0] === '27') {
-                            assignComputerValue(5, 'x')
-                        } else if (playerMovesArray[0] === 2) {
-                            if (playerMovesCombinationsArray[0] === '23' || '25' || '26' || '27')
-                                assignComputerValue(7, 'x')
-                        }
+                        (playerMoves1and2 === '27' ?
+                            assignComputerValue(5, 'x') : assignComputerValue(7, 'x'))
                         break;
                     case 3:
-                        if (playerMovesCombinationsArray[0] === '36') {
-                            assignComputerValue(0, 'x')
-                        } else if (playerMovesArray[0] === 3) {
-                            if (playerMovesCombinationsArray[0] === '30' || '31' || '35' || '37' || '38')
-                                assignComputerValue(6, 'x')
-                        }
+                        (playerMoves1and2 === '36' ?
+                            assignComputerValue(0, 'x') : assignComputerValue(6, 'x'))
                         break;
                     case 5:
-                        if (playerMovesCombinationsArray[0] === '56') {
-                            assignComputerValue(8, 'x')
-                        } else if (playerMovesArray[0] === 5) {
-                            if (playerMovesCombinationsArray[0] === '50' || '51' || '53' || '57' || '58') {
-                                assignComputerValue(6, 'x')
-                            }
-                        }
+                        (playerMoves1and2 === '56' ?
+                            assignComputerValue(8, 'x') : assignComputerValue(6, 'x'))
                         break;
                     case 6:
-                        if (playerMovesCombinationsArray[0] === '68') {
-                            assignComputerValue(7, 'x')
-                        } else if (playerMovesArray[0] === 6) {
-                            if (playerMovesCombinationsArray[0] === '61' || '63' || '65' || '67')
-                                assignComputerValue(8, 'x')
-                        }
+                        (playerMoves1and2 === '68' ?
+                            assignComputerValue(7, 'x') : assignComputerValue(8, 'x'))
                         break;
                     case 7:
-                        if (playerMovesCombinationsArray[0] === '76') {
-                            assignComputerValue(8, 'x')
-                        } else if (playerMovesArray[0] === 7) {
-                            if (playerMovesCombinationsArray[0] === '70' || '71' || '73' || '75' || '78')
-                                assignComputerValue(6, 'x')
-                        }
+                        (playerMoves1and2 === '76' ?
+                            assignComputerValue(8, 'x') : assignComputerValue(6, 'x'))
                         break;
                     case 8:
-                        if (playerMovesCombinationsArray[0] === '86') {
-                            assignComputerValue(7, 'x')
-                        } else if (playerMovesArray[0] === 8) {
-                            if (playerMovesCombinationsArray[0] === '80' || '81' || '83' || '85' || '87')
-                                assignComputerValue(6, 'x')
-                        }
-                        break;
+                        if (playerMoves1and2 === '86' ?
+                            assignComputerValue(7, 'x') : assignComputerValue(6, 'x'))
+                            break;
                 }
                 break;
             case 6:
-                // todo
-                switch (playerMovesArray[1]) {
-                    case 0:
-                        if (playerMovesCombinationsArray[0] === '02') {
-                            assignComputerValue(1, 'x')
-                        } else if (playerMovesCombinationsArray[0] === '01' || '03' || '05' || '07' || '08') {
-                            assignComputerValue(2, 'x')
-                        }
+                // Depending on player's first ,second and third  move the computer will respond accordingly
+
+
+                switch (playerMoves1and2) {
+                    case '02':
+                        (playerMovesArray[2] === 7 ?
+                            assignComputerValue(3, 'x') : assignComputerValue(7, 'x'))
                         break;
-                    case 1:
-                        if (playerMovesCombinationsArray[0] === '15') {
-                            assignComputerValue(0, 'x')
-                        } else if (playerMovesArray[0] === 1) {
-                            if (playerMovesCombinationsArray[0] === '10' || '12' || '16' || '17' || '18')
-                                assignComputerValue(5, 'x')
-                        }
-                        break;
-                    case 5:
-                        if (playerMovesCombinationsArray[0] === '27') {
-                            assignComputerValue(5, 'x')
-                        } else if (playerMovesArray[0] === 2) {
-                            if (playerMovesCombinationsArray[0] === '23' || '25' || '26' || '27')
-                                assignComputerValue(7, 'x')
-                        }
-                        break;
-                    case 7:
-                        if (playerMovesCombinationsArray[0] === '36') {
-                            assignComputerValue(0, 'x')
-                        } else if (playerMovesArray[0] === 3) {
-                            if (playerMovesCombinationsArray[0] === '30' || '31' || '35' || '37' || '38')
-                                assignComputerValue(6, 'x')
-                        }
-                        break;
-                    case 8:
-                        if (playerMovesCombinationsArray[0] === '56') {
-                            assignComputerValue(8, 'x')
-                        } else if (playerMovesArray[0] === 5) {
-                            if (playerMovesCombinationsArray[0] === '50' || '51' || '53' || '57' || '58') {
-                                assignComputerValue(6, 'x')
-                            }
-                        }
+                    case '15':
+                        (playerMovesArray[2] === 8 ?
+                            assignComputerValue(6, 'x') : assignComputerValue(8, 'x'))
                         break;
 
+                    case '27':
+                        (playerMovesArray[2] === 3 ?
+                            assignComputerValue(0, 'x') : assignComputerValue(3, 'x'))
+                        break;
+                    case '36':
+                        (playerMovesArray[2] === 1 ?
+                            assignComputerValue(8, 'x') : assignComputerValue(1, 'x'))
+                        break;
+
+                    case '56':
+                        (playerMovesArray[2] === 1 ?
+                            assignComputerValue(8, 'x') : assignComputerValue(2, 'x'))
+                        break;
+
+                    case '68':
+                    case '86':
+                    case '76':
+                        (playerMovesArray[2] === 1 ?
+                            assignComputerValue(5, 'x') : assignComputerValue(1, 'x'))
+                        break;
                 }
                 break;
             case 8:
+                // Depending on player's moves 1-4 the computer will respond accordingly
+
+                switch (playerMoves123){
+                    case '027':
+                        (playerMovesArray[3] === 5 ?
+                            assignComputerValue(8, 'x') : assignComputerValue(5, 'x'))
+                        break;
+                    case '273':
+                        (playerMovesArray[3] === 8 ?
+                            assignComputerValue(6, 'x') : assignComputerValue(8, 'x'))
+                        break;
+                    case '681':
+                        (playerMovesArray[3] === 3 ?
+                            assignComputerValue(2, 'x') : assignComputerValue(3, 'x'))
+                        break;
+                    case '861':
+                        (playerMovesArray[3] === 3 ?
+                            assignComputerValue(0, 'x') : assignComputerValue(3, 'x'))
+                        break;
+                }
+
                 break;
         }
 
@@ -457,10 +458,11 @@ function computerSelections(char) {
     }
     validateGameBoard();
 
+
 }
 
 function assignComputerValue(num, char) {
-    counter++;
+    playerTurn++;
     getId('img' + num).src = shapeX;
     getId('btn' + num).disabled = true;
     inputShapeArray[num] = (char);
