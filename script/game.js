@@ -4,7 +4,11 @@ let playerTurn = 0;
 let boardPosition = 0;
 let inputShapeArray = [];
 let playerMovesArray = [];
-let textBanner = document.getElementsByTagName("h3")[0];
+let boardArray = [];
+let arrayMoveList = [];
+let textBanner = document.getElementsByTagName("h2")[0];
+let selectButtons = document.getElementsByClassName('selectButtons')[0];
+let information = document.getElementsByClassName('info')[0];
 let playerOne = "";
 let row0 = "";
 let row1 = "";
@@ -14,15 +18,14 @@ let col1 = "";
 let col2 = "";
 let diagonal0 = "";
 let diagonal3 = ""
-let playerMoves1and2 = "";
-let playerMoves123 = "";
 let computerMode = false;
-
-function getId(id) {
-    return document.getElementById(id);
-}
+let random = 0;
 
 function startGame() {
+    showInformation();
+    getId("startBtn").innerHTML = "Restart Game";
+    document.getElementsByClassName("gameBoard")[0].style.visibility = 'visible';
+    selectButtons.style.visibility = "visible";
     enableAllButtons()
     restartGameAnimation()
     textBanner.innerHTML = "First move will be X"
@@ -31,18 +34,23 @@ function startGame() {
     computerMode = false;
     for (let i = 0; i <= 8; i++) {
         document.getElementById("img" + i).src = "images/shapeBlank.svg"
-        inputShapeArray[i] = '';
+        inputShapeArray[i] = '-';
         playerMovesArray.pop();
     }
-
+    inputShapeVariables()
 }
 
-//*************** Insert X or O and player logic  ******************************
+//*************** Insert X or O and player button clicks  ******************************
 function insertShape(id) {
+
     // Use for number of turns
     playerTurn++;
+
+    showPlayerTurnInfo()
+
     // odd number X even number O
     playerOne = (playerTurn % 2 === 1);
+
     switch (id) {
         case 0:
             if (playerOne ? getId('img0').src = shapeX : getId('img0').src = shapeO)
@@ -110,11 +118,13 @@ function insertShape(id) {
     }
     inputShapeVariables();
     validateGameBoard();
+    hideInformation();
+
     if (computerMode) computerSelections(playerOne ? '0' : 'x');
+
 }
 
 //*************** Values for row, col, diagonal   ******************************
-
 function inputShapeVariables() {
     row0 = inputShapeArray[0] + inputShapeArray[1] + inputShapeArray[2];
     row1 = inputShapeArray[3] + inputShapeArray[4] + inputShapeArray[5];
@@ -124,9 +134,7 @@ function inputShapeVariables() {
     col2 = inputShapeArray[2] + inputShapeArray[5] + inputShapeArray[8];
     diagonal0 = inputShapeArray[0] + inputShapeArray[4] + inputShapeArray[8];
     diagonal3 = inputShapeArray[2] + inputShapeArray[4] + inputShapeArray[6];
-    playerMoves1and2 = "" + playerMovesArray[0] + playerMovesArray[1];
-   playerMoves123 = "" + playerMovesArray[0] + playerMovesArray[1] + playerMovesArray[2];
-
+    boardArray = [row0, row1, row2, col0, col1, col2, diagonal0, diagonal3];
 
 }
 
@@ -317,14 +325,14 @@ function validateAllRowColDiagonal() {
 }
 
 function validateGameBoard() {
-    if (validateAllRowColDiagonal() < 4) {
+    if (validateAllRowColDiagonal() <= 3) {
         if (validateAllRowColDiagonal() === 0) horizontalLineAnimation();
         if (validateAllRowColDiagonal() === 1) verticalLineAnimation();
         if (validateAllRowColDiagonal() === 2) diagonalLineAnimationPos0();
         if (validateAllRowColDiagonal() === 3) diagonalLineAnimationPos3();
 
-
         textBanner.innerHTML = `${(playerOne ? 'x' : '0').toUpperCase()} WON !`;
+
         if (computerMode) textBanner.innerHTML = `${(playerOne ? '0' : 'x').toUpperCase()} WON !`;
 
         disableAllButtons();
@@ -336,138 +344,173 @@ function validateGameBoard() {
 
 //*************** Computer logic   ******************************
 function computerSelections(char) {
+    showPlayerTurnInfo();
+    hideInformation();
     computerMode = true;
-// todo test 1-8
     if (char === 'x') {
         switch (playerTurn) {
             case 0:
-                assignComputerValue(4, 'x')
+                arrayMoveList = [0, 2, 4, 6, 8];
+                random = Math.floor(Math.random() * arrayMoveList.length);
+                assignComputerValue(arrayMoveList[random], 'x')
                 break;
-            // Depending on player's first move the computer will respond accordingly
             case 2:
-                if (playerMovesArray[0] === 0) assignComputerValue(6, 'x')
-                if (playerMovesArray[0] === 1) assignComputerValue(3, 'x')
-                if (playerMovesArray[0] === 2) assignComputerValue(1, 'x')
-                if (playerMovesArray[0] === 3) assignComputerValue(2, 'x')
-                if (playerMovesArray[0] === 5) assignComputerValue(2, 'x')
-                if (playerMovesArray[0] === 6) assignComputerValue(0, 'x')
-                if (playerMovesArray[0] === 7) assignComputerValue(2, 'x')
-                if (playerMovesArray[0] === 8) assignComputerValue(2, 'x')
-                break;
             case 4:
-                // Depending on player's first and second move the computer will respond accordingly
-
-                switch (playerMovesArray[0]) {
-                    case 0:
-                        (playerMoves1and2 === '02' ?
-                            assignComputerValue(1, 'x') : assignComputerValue(2, 'x'))
-                        break;
-                    case 1:
-                        (playerMoves1and2 === '15' ?
-                            assignComputerValue(0, 'x') : assignComputerValue(5, 'x'))
-                        break;
-                    case 2:
-                        (playerMoves1and2 === '27' ?
-                            assignComputerValue(5, 'x') : assignComputerValue(7, 'x'))
-                        break;
-                    case 3:
-                        (playerMoves1and2 === '36' ?
-                            assignComputerValue(0, 'x') : assignComputerValue(6, 'x'))
-                        break;
-                    case 5:
-                        (playerMoves1and2 === '56' ?
-                            assignComputerValue(8, 'x') : assignComputerValue(6, 'x'))
-                        break;
-                    case 6:
-                        (playerMoves1and2 === '68' ?
-                            assignComputerValue(7, 'x') : assignComputerValue(8, 'x'))
-                        break;
-                    case 7:
-                        (playerMoves1and2 === '76' ?
-                            assignComputerValue(8, 'x') : assignComputerValue(6, 'x'))
-                        break;
-                    case 8:
-                        if (playerMoves1and2 === '86' ?
-                            assignComputerValue(7, 'x') : assignComputerValue(6, 'x'))
-                            break;
-                }
-                break;
             case 6:
-                // Depending on player's first ,second and third  move the computer will respond accordingly
-
-
-                switch (playerMoves1and2) {
-                    case '02':
-                        (playerMovesArray[2] === 7 ?
-                            assignComputerValue(3, 'x') : assignComputerValue(7, 'x'))
-                        break;
-                    case '15':
-                        (playerMovesArray[2] === 8 ?
-                            assignComputerValue(6, 'x') : assignComputerValue(8, 'x'))
-                        break;
-
-                    case '27':
-                        (playerMovesArray[2] === 3 ?
-                            assignComputerValue(0, 'x') : assignComputerValue(3, 'x'))
-                        break;
-                    case '36':
-                        (playerMovesArray[2] === 1 ?
-                            assignComputerValue(8, 'x') : assignComputerValue(1, 'x'))
-                        break;
-
-                    case '56':
-                        (playerMovesArray[2] === 1 ?
-                            assignComputerValue(8, 'x') : assignComputerValue(2, 'x'))
-                        break;
-
-                    case '68':
-                    case '86':
-                    case '76':
-                        (playerMovesArray[2] === 1 ?
-                            assignComputerValue(5, 'x') : assignComputerValue(1, 'x'))
-                        break;
-                }
-                break;
             case 8:
-                // Depending on player's moves 1-4 the computer will respond accordingly
+                if (inputValidation('x') > -1) {
+                    assignComputerValue(inputValidation('x'), 'x')
+                } else if (inputValidation('0') > -1) {
+                    assignComputerValue(inputValidation('0'), 'x')
+                } else if (computerValidation('x') > -1) {
 
-                switch (playerMoves123){
-                    case '027':
-                        (playerMovesArray[3] === 5 ?
-                            assignComputerValue(8, 'x') : assignComputerValue(5, 'x'))
-                        break;
-                    case '273':
-                        (playerMovesArray[3] === 8 ?
-                            assignComputerValue(6, 'x') : assignComputerValue(8, 'x'))
-                        break;
-                    case '681':
-                        (playerMovesArray[3] === 3 ?
-                            assignComputerValue(2, 'x') : assignComputerValue(3, 'x'))
-                        break;
-                    case '861':
-                        (playerMovesArray[3] === 3 ?
-                            assignComputerValue(0, 'x') : assignComputerValue(3, 'x'))
-                        break;
+                    assignComputerValue(computerValidation('x'), 'x')
+                } else {
+                    for (let i = 0; i < inputShapeArray.length; i++) {
+                        if (inputShapeArray[i] === '-') {
+                            assignComputerValue(i, 'x')
+                            break;
+                        }
+                    }
                 }
+        }
+    }
 
+    if (char === '0') {
+        switch (playerTurn) {
+            case 1:
+                arrayMoveList = [0, 2, 6, 8];
+                random = Math.floor(Math.random() * arrayMoveList.length);
+                (playerMovesArray[0] !== '-' && playerMovesArray[0] !== 4 ?
+                    assignComputerValue(4, '0') : assignComputerValue(arrayMoveList[random], '0'))
+                break;
+            case 3:
+            case 5:
+            case 7:
+                if (inputValidation('0') > -1) {
+                    assignComputerValue(inputValidation('0'), '0');
+                } else if (inputValidation('x') > -1) {
+                    assignComputerValue(inputValidation('x'), '0');
+                } else if (computerValidation('0') > -1) {
+
+                    assignComputerValue(computerValidation('0'), '0');
+                } else {
+                    for (let i = 0; i < inputShapeArray.length; i++) {
+                        if (inputShapeArray[i] === '-') {
+                            assignComputerValue(i, '0')
+                            break;
+                        }
+                    }
+                }
                 break;
         }
-
-    } else {
-
     }
     validateGameBoard();
-
-
 }
 
 function assignComputerValue(num, char) {
     playerTurn++;
-    getId('img' + num).src = shapeX;
+    (char === 'x' ? getId('img' + num).src = shapeX : getId('img' + num).src = shapeO);
     getId('btn' + num).disabled = true;
     inputShapeArray[num] = (char);
     boardPosition = num;
     inputShapeVariables();
-
+    showPlayerTurnInfo();
 }
+
+function getPositionNumber(num) {
+    switch (num) {
+        case 0:
+            if (inputShapeArray[0] === '-') return 0;
+            if (inputShapeArray[1] === '-') return 1;
+            if (inputShapeArray[2] === '-') return 2;
+
+            break;
+        case 1:
+            if (inputShapeArray[3] === '-') return 3;
+            if (inputShapeArray[4] === '-') return 4;
+            if (inputShapeArray[5] === '-') return 5;
+
+            break;
+        case 2:
+            if (inputShapeArray[6] === '-') return 6;
+            if (inputShapeArray[7] === '-') return 7;
+            if (inputShapeArray[8] === '-') return 8;
+
+            break;
+        case 3:
+            if (inputShapeArray[0] === '-') return 0;
+            if (inputShapeArray[3] === '-') return 3;
+            if (inputShapeArray[6] === '-') return 6;
+
+            break;
+        case 4:
+            if (inputShapeArray[1] === '-') return 1;
+            if (inputShapeArray[4] === '-') return 4;
+            if (inputShapeArray[7] === '-') return 7;
+
+            break;
+        case 5:
+            if (inputShapeArray[2] === '-') return 2;
+            if (inputShapeArray[5] === '-') return 5;
+            if (inputShapeArray[8] === '-') return 8;
+
+            break;
+        case 6:
+            if (inputShapeArray[0] === '-') return 0;
+            if (inputShapeArray[1] === '-') return 4;
+            if (inputShapeArray[2] === '-') return 8;
+            break;
+        case 7:
+            if (inputShapeArray[2] === '-') return 2;
+            if (inputShapeArray[4] === '-') return 4;
+            if (inputShapeArray[6] === '-') return 6;
+            break;
+
+    }
+}
+
+function validateInput(char, shape) {
+    return (char === shape + shape + '-' || char === '-' + shape + shape || char === shape + '-' + shape);
+}
+
+function computerMove(char, shape) {
+    return (char === shape + '--' || char === '--' + shape || char === '-' + shape + '-');
+}
+
+function inputValidation(shape) {
+    for (let i = 0; i < boardArray.length; i++) {
+        if (validateInput(boardArray[i], shape)) return getPositionNumber(i);
+    }
+    return -1;
+}
+
+function computerValidation(shape) {
+    for (let i = 0; i < boardArray.length; i++) {
+        if (computerMove(boardArray[i], shape)) return getPositionNumber(i);
+    }
+    return -1;
+}
+
+//*************** Miscellaneous ******************************
+function hideInformation() {
+    selectButtons.style.visibility = 'hidden';
+    information.style.visibility = "hidden";
+}
+
+function showInformation() {
+    selectButtons.style.visibility = 'visible';
+    information.style.visibility = "visible";
+}
+
+function getId(id) {
+    return document.getElementById(id);
+}
+
+function showPlayerTurnInfo() {
+    playerOne = (playerTurn % 2 === 1);
+    (playerOne ?
+        textBanner.innerHTML = "0 " + 'turn' : textBanner.innerHTML = "X " + 'turn');
+}
+
 

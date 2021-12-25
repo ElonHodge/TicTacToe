@@ -1,9 +1,12 @@
-h1,h3{
+h1,h2,p{
     text-align: center;
     color: black;
     font-family: Noteworthy, sans-serif;
 }
+
+
 .gameBoard{
+    /*visibility: hidden;*/
     position: fixed;
     width: 320px;
     height: 300px;
@@ -54,10 +57,15 @@ h1,h3{
     left: 50%;
     transform:translate(-50%,-50%);
     position: fixed;
+    /*visibility: hidden;*/
 }
 .selectButtonsStyle{
     width: 50px;
     border-radius: 5px;
     background-color: white;
     font-family: Noteworthy, sans-serif;
+}
+
+.info{
+    visibility: hidden;
 }
