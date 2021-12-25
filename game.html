@@ -17,9 +17,13 @@
     <p class="info"> To play against computer select your shape </p>
 
 </div>
-<div class="d-flex flex-row selectButtons  justify-content-evenly   ">
-    <button class="selectButtonsStyle " onclick="computerSelections('0')">X</button>
-    <button class="selectButtonsStyle " onclick="computerSelections('x')">O</button>
+<div class="d-flex flex-row selectButtons  justify-content-evenly  mt-3 ">
+    <button class="selectButtonsStyle " onclick="computerSelections('0')" >
+        <img src="/images/shapeX.svg" alt="shape of an x"  width="25px" height="25px">
+    </button>
+    <button class="selectButtonsStyle " onclick="computerSelections('x')">
+        <img src="/images/shapeO.svg" alt="shape of an x"  width="25px" height="25px">
+    </button>
 </div>
 <div  class=" gameBoard position-fixed d-flex flex-row">
 
@@ -29,17 +33,17 @@
     <div class="flex-fill border-dark ">
 
         <div class="board">
-            <button id="btn0"  onclick="insertShape(0)" class="boardBtn ">0
+            <button id="btn0"  onclick="insertShape(0)" class="boardBtn ">
                 <img id="img0" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
         </div>
         <div  class="board boardLines">
-            <button id="btn3" onclick="insertShape(3)" class="boardBtn">3
+            <button id="btn3" onclick="insertShape(3)" class="boardBtn">
                 <img id="img3" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
         </div>
         <div class="board boardLines">
-            <button id="btn6" onclick="insertShape(6)" class="boardBtn">6
+            <button id="btn6" onclick="insertShape(6)" class="boardBtn">
                 <img id="img6" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
         </div>
@@ -47,17 +51,17 @@
 
     <div class="flex-fill border-start border-end border-dark">
         <div class="board">
-            <button id="btn1" onclick="insertShape(1)" class="boardBtn">1
+            <button id="btn1" onclick="insertShape(1)" class="boardBtn">
                 <img id="img1" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
         </div>
         <div id="" class="board boardLines">
-            <button id="btn4" onclick="insertShape(4)" class="boardBtn">4
+            <button id="btn4" onclick="insertShape(4)" class="boardBtn">
                 <img id="img4" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
         </div>
         <div class="board boardLines">
-            <button id="btn7" onclick="insertShape(7)" class="boardBtn">7
+            <button id="btn7" onclick="insertShape(7)" class="boardBtn">
                 <img id="img7" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
         </div>
@@ -65,17 +69,17 @@
 
     <div class="flex-fill">
         <div class="board">
-            <button id="btn2" onclick="insertShape(2)" class="boardBtn">2
+            <button id="btn2" onclick="insertShape(2)" class="boardBtn">
                 <img id="img2" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
         </div>
         <div class="board boardLines">
-            <button id="btn5" onclick="insertShape(5)" class="boardBtn">5
+            <button id="btn5" onclick="insertShape(5)" class="boardBtn">
                 <img id="img5" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
         </div>
         <div class="board boardLines">
-            <button id="btn8" onclick="insertShape(8)" class="boardBtn">8
+            <button id="btn8" onclick="insertShape(8)" class="boardBtn">
                 <img id="img8" src="images/shapeBlank.svg" alt="blank shape" width="30px" height="30px">
             </button>
         </div>
@@ -85,7 +89,6 @@
 </div>
 <button id="startBtn" class = "restart position-fixed" onclick="startGame()">Start Game</button>
 
-<button onclick="showPlayerTurnInfo()"> test</button>
 
 <script src="script/game.js"></script>
 <!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>-->

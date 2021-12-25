@@ -333,7 +333,6 @@ function validateGameBoard() {
 
         textBanner.innerHTML = `${(playerOne ? 'x' : '0').toUpperCase()} WON !`;
 
-        if (computerMode) textBanner.innerHTML = `${(playerOne ? '0' : 'x').toUpperCase()} WON !`;
 
         disableAllButtons();
 
@@ -344,9 +343,10 @@ function validateGameBoard() {
 
 //*************** Computer logic   ******************************
 function computerSelections(char) {
-    showPlayerTurnInfo();
     hideInformation();
     computerMode = true;
+    showPlayerTurnInfo();
+
     if (char === 'x') {
         switch (playerTurn) {
             case 0:
@@ -511,6 +511,7 @@ function showPlayerTurnInfo() {
     playerOne = (playerTurn % 2 === 1);
     (playerOne ?
         textBanner.innerHTML = "0 " + 'turn' : textBanner.innerHTML = "X " + 'turn');
+
 }
 
 

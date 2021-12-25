@@ -6,7 +6,7 @@ h1,h2,p{
 
 
 .gameBoard{
-    /*visibility: hidden;*/
+    visibility: hidden;
     position: fixed;
     width: 320px;
     height: 300px;
@@ -57,7 +57,7 @@ h1,h2,p{
     left: 50%;
     transform:translate(-50%,-50%);
     position: fixed;
-    /*visibility: hidden;*/
+    visibility: hidden;
 }
 .selectButtonsStyle{
     width: 50px;
