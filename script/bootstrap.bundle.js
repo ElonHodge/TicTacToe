@@ -2668,7 +2668,7 @@
   }
 
   function isScrollParent(element) {
-    // Firefox wants us to check `-x` and `-y` variations as well
+    // Firefox wants us to check `-x` and `-Public` variations as well
     var _getComputedStyle = getComputedStyle$1(element),
         overflow = _getComputedStyle.overflow,
         overflowX = _getComputedStyle.overflowX,

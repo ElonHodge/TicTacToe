@@ -38,6 +38,7 @@ function startGame() {
         playerMovesArray.pop();
     }
     inputShapeVariables()
+    computerSelections('0')
 }
 
 //*************** Insert X or O and player button clicks  ******************************
@@ -121,7 +122,7 @@ function insertShape(id) {
     hideInformation();
 
     if (computerMode) computerSelections(playerOne ? '0' : 'x');
-
+test();
 }
 
 //*************** Values for row, col, diagonal   ******************************
@@ -278,7 +279,7 @@ function diagonalLineAnimationPos3() {
 function restartGameAnimation() {
     document.getElementById("boardAnimation").animate([
         {
-            border: "0px",
+             border: "0px",
             marginTop: "0px",
             marginLeft: "0px",
             skew: "0px",
@@ -287,10 +288,9 @@ function restartGameAnimation() {
             position: "fixed",
         },
     ], {duration: 1000, fill: "forwards"});
-
 }
 
-//*************** Enable and Disable Buttons   ******************************
+//*************** Enable and Disable Game board buttons  Buttons   ******************************
 
 function disableAllButtons() {
     for (let i = 0; i <= 8; i++) {
@@ -346,7 +346,7 @@ function computerSelections(char) {
     hideInformation();
     computerMode = true;
     showPlayerTurnInfo();
-
+    // computer will be x
     if (char === 'x') {
         switch (playerTurn) {
             case 0:
@@ -363,7 +363,6 @@ function computerSelections(char) {
                 } else if (inputValidation('0') > -1) {
                     assignComputerValue(inputValidation('0'), 'x')
                 } else if (computerValidation('x') > -1) {
-
                     assignComputerValue(computerValidation('x'), 'x')
                 } else {
                     for (let i = 0; i < inputShapeArray.length; i++) {
@@ -376,24 +375,25 @@ function computerSelections(char) {
         }
     }
 
+    // computer will be 0
     if (char === '0') {
         switch (playerTurn) {
             case 1:
                 arrayMoveList = [0, 2, 6, 8];
                 random = Math.floor(Math.random() * arrayMoveList.length);
                 (playerMovesArray[0] !== '-' && playerMovesArray[0] !== 4 ?
-                    assignComputerValue(4, '0') : assignComputerValue(arrayMoveList[random], '0'))
+                    assignComputerValue(4, '0') : assignComputerValue(6, '0'))
                 break;
             case 3:
             case 5:
+                // switch (playerMovesArray[])
             case 7:
                 if (inputValidation('0') > -1) {
                     assignComputerValue(inputValidation('0'), '0');
                 } else if (inputValidation('x') > -1) {
                     assignComputerValue(inputValidation('x'), '0');
-                } else if (computerValidation('0') > -1) {
-
-                    assignComputerValue(computerValidation('0'), '0');
+                } else if (computerValidation('x') > -1) {
+                    assignComputerValue(computerValidation('x'), '0');
                 } else {
                     for (let i = 0; i < inputShapeArray.length; i++) {
                         if (inputShapeArray[i] === '-') {
@@ -422,26 +422,26 @@ function getPositionNumber(num) {
     switch (num) {
         case 0:
             if (inputShapeArray[0] === '-') return 0;
-            if (inputShapeArray[1] === '-') return 1;
             if (inputShapeArray[2] === '-') return 2;
+            if (inputShapeArray[1] === '-') return 1;
 
             break;
         case 1:
-            if (inputShapeArray[3] === '-') return 3;
             if (inputShapeArray[4] === '-') return 4;
+            if (inputShapeArray[3] === '-') return 3;
             if (inputShapeArray[5] === '-') return 5;
 
             break;
         case 2:
             if (inputShapeArray[6] === '-') return 6;
-            if (inputShapeArray[7] === '-') return 7;
             if (inputShapeArray[8] === '-') return 8;
+            if (inputShapeArray[7] === '-') return 7;
 
             break;
         case 3:
             if (inputShapeArray[0] === '-') return 0;
-            if (inputShapeArray[3] === '-') return 3;
             if (inputShapeArray[6] === '-') return 6;
+            if (inputShapeArray[3] === '-') return 3;
 
             break;
         case 4:
@@ -452,14 +452,14 @@ function getPositionNumber(num) {
             break;
         case 5:
             if (inputShapeArray[2] === '-') return 2;
-            if (inputShapeArray[5] === '-') return 5;
             if (inputShapeArray[8] === '-') return 8;
+            if (inputShapeArray[5] === '-') return 5;
 
             break;
         case 6:
             if (inputShapeArray[0] === '-') return 0;
-            if (inputShapeArray[1] === '-') return 4;
-            if (inputShapeArray[2] === '-') return 8;
+            if (inputShapeArray[4] === '-') return 4;
+            if (inputShapeArray[8] === '-') return 8;
             break;
         case 7:
             if (inputShapeArray[2] === '-') return 2;
