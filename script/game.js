@@ -38,7 +38,6 @@ function startGame() {
         playerMovesArray.pop();
     }
     inputShapeVariables()
-    computerSelections('0')
 }
 
 //*************** Insert X or O and player button clicks  ******************************
